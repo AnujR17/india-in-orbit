@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>India In Orbit | ISRO Satellites</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.111/Build/Cesium/Widgets/widgets.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="liveBackground" aria-hidden="true"></canvas>
+  <div id="spaceScene" aria-hidden="true"></div>
+
+  <main class="page">
+    <section id="hero" class="section hero">
+      <div class="hero-content">
+        <h1 class="hero-title">India in Orbit</h1>
+        <p class="hero-subtitle">Exploring the cosmos, empowering a billion lives</p>
+      </div>
+    </section>
+
+    <section id="everyday" class="section everyday">
+      <div class="everyday-sticky">
+        <div class="everyday-board">
+          <div class="everyday-header">
+            <h2 class="section-title section-title-track">Shaping Everyday Life</h2>
+            <p class="section-desc">Three satellite systems support communication, weather intelligence, and navigation services used daily across India.</p>
+          </div>
+
+          <div class="everyday-stage">
+            <div class="everyday-copy">
+              <div class="everyday-content">
+                <h3 class="everyday-focus" id="everydayTitle">Communication Backbone Across India</h3>
+                <p class="section-desc everyday-desc" id="everydayDesc">INSAT, GSAT, and CMS missions support broadcasting, telecom, emergency response links, and digital access in remote regions.</p>
+                <p class="everyday-subline" id="everydayPurpose">Purpose: Enable TV and radio broadcasting, telecommunication, internet, telemedicine, tele-education, and emergency communication.</p>
+                <div class="everyday-details">
+                  <div class="everyday-panel">
+                    <h4>Daily Life Impact</h4>
+                    <ul id="everydayImpact"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="everyday-visual" aria-hidden="true">
+              <div class="earth-stage" id="everydayEarthStage"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="explorer" class="section explorer">
+      <div class="explorer-sticky">
+        <div class="explorer-overlay" id="explorerOverlay">
+          <div class="intro-section">
+            <h2 class="hero-intro">Chasing The Sky</h2>
+            <p class="intro-desc">India's path to the stars started on the small beaches of Thumba, with sounding rockets carried on bicycles. What began as a modest effort to understand our atmosphere has transformed into a sophisticated orbital program. Today, with over 90+ own successful satellite launches, our space program serves as a backbone for national communication, disaster management, and deep-space exploration.</p>
+          </div>
+
+          <div class="explorer-launch-wrap" aria-hidden="true">
+            <div id="explorerLaunchScene"></div>
+          </div>
+
+          <div class="orbit-guided" id="orbitGuided">
+            <div id="orbitCesiumContainer" class="orbit-cesium-viewport"></div>
+            <button class="orbit-close-btn" id="orbitCloseBtn" hidden>✕ Close</button>
+            <div class="orbit-step-indicators" id="orbitStepDots"></div>
+
+            <div class="orbit-step-card" data-step="intro">
+              <h3>Satellite Orbits</h3>
+              <p>ISRO operates satellites across three primary orbital regimes, each optimized for different mission requirements. From low-altitude Earth observation to geostationary telecommunications, the orbit determines a satellite's view, speed, and purpose.</p>
+            </div>
+
+            <div class="orbit-step-card" data-step="leo">
+              <h3>LEO - 160 to 2,000 km</h3>
+              <p>Operating just above the atmosphere, Low Earth Orbit is our closest vantage point. Satellites here zip around the globe every 90 minutes, capturing sharp, detailed images of our shifting landscapes. This is where ISRO's Cartosat and RISAT missions live, keeping a constant watch for urban planning and crisis response.</p>
+              <div class="orbit-step-stat"><span>Orbital Period</span><strong>~90–120 min</strong></div>
+            </div>
+
+            <div class="orbit-step-card" data-step="sso">
+              <h3>SSO - 600 to 800 km</h3>
+              <p>For consistent photography, satellites need a reliable sun. In a Sun-Synchronous Orbit, our spacecraft cross the same spots at the same local time every day, ensuring the lighting remains identical for every snapshot. This stable environment is the preferred home for workhorses like Oceansat, Resourcesat, and the NISAR mission.</p>
+              <div class="orbit-step-stat"><span>Inclination</span><strong>~97–99°</strong></div>
+            </div>
+
+            <div class="orbit-step-card" data-step="geo">
+              <h3>GEO - 35,786 km</h3>
+              <p>High above the equator, satellites in Geostationary Orbit match the Earth's rotation perfectly. By staying fixed over the same patch of land, they provide the steady signals needed for our television, radio, and weather forecasting. Here, the INSAT and GSAT series serve as permanent relay stations for the entire nation.</p>
+              <div class="orbit-step-stat"><span>Fixed Position</span><strong>74°E – 93.5°E</strong></div>
+            </div>
+
+            <div class="orbit-step-card" data-step="cluster">
+              <h3>How Satellites Form Constellations</h3>
+              <p>Our satellite fleet works as a coordinated network. While LEO missions handle high-speed global passes and SSO satellites maintain a systematic scanning grid, our GEO fleet forms a silent, protective arc over our borders. Together, they create a seamless web of data that touches every corner of Indian life.</p>
+            </div>
+
+            <div class="orbit-step-card" data-step="nisar">
+              <h3>NISAR - NASA-ISRO SAR Mission</h3>
+              <p>Launched July 30, 2025 on GSLV-F16, NISAR is the world's most expensive Earth-observation satellite, a joint NASA-ISRO mission carrying dual-frequency L-band and S-band synthetic aperture radar. It maps the entire globe every 12 days to track surface deformation, ice sheet dynamics, and ecosystem changes.</p>
+              <div class="orbit-step-stat"><span>Mass</span><strong>2,393 kg</strong></div>
+              <div class="orbit-step-stat"><span>Altitude</span><strong>747 km (SSO)</strong></div>
+            </div>
+
+            <article class="nisar-sat-card" id="nisarFixedCard" style="display:none;" aria-label="NISAR satellite summary">
+              <div class="nisar-sat-card-image">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Artist%27s_concept_of_NISAR_over_Earth.jpg" alt="NISAR satellite" />
+                <div class="nisar-sat-card-pills">
+                  <span class="nisar-pill sso" id="nisarOrbitPill">SSO</span>
+                  <span class="nisar-pill active" id="nisarStatusPill">ACTIVE</span>
+                </div>
+                <div class="nisar-sat-card-name">
+                  <h3 id="nisarCardName">NISAR</h3>
+                </div>
+              </div>
+              <div class="nisar-sat-card-body">
+                <div class="nisar-sat-grid">
+                  <div class="nisar-sat-item"><span>Orbit</span><strong id="nisarOrbitType">SSO</strong></div>
+                  <div class="nisar-sat-item"><span>Status</span><strong id="nisarStatusText">ACTIVE</strong></div>
+                  <div class="nisar-sat-item"><span>Altitude</span><strong id="nisarAltitude">747 km</strong></div>
+                  <div class="nisar-sat-item"><span>Launch</span><strong id="nisarLaunchDate">30 Jul 2025</strong></div>
+                  <div class="nisar-sat-item"><span>Mass</span><strong id="nisarMass">2,393 kg</strong></div>
+                  <div class="nisar-sat-item"><span>Vehicle</span><strong id="nisarVehicle">GSLV-F16</strong></div>
+                  <div class="nisar-sat-item nisar-sat-item-wide"><span>Mission Life</span><strong id="nisarMissionLife">3 years</strong></div>
+                  <div class="nisar-sat-item nisar-sat-item-wide"><span>Purpose</span><strong id="nisarPurpose">Earth Observation</strong></div>
+                </div>
+                <a class="nisar-sat-link" id="nisarDetailsLink" href="https://en.wikipedia.org/wiki/NISAR_(satellite)" target="_blank" rel="noopener">View Details</a>
+              </div>
+            </article>
+          </div>
+
+          <div class="vehicle-story">
+            <div class="vehicle-story-header">
+              <h3>Launch Vehicles</h3>
+              <p class="vehicle-desc">ISRO's launch vehicle family, developed at Satish Dhawan Space Centre in Sriharikota, delivers payloads ranging from nano-satellites to 4-tonne class spacecraft into precise orbits.</p>
+            </div>
+            <div class="vehicle-showcase">
+              <article class="vehicle-item vehicle-pslv" data-vehicle="pslv">
+                <img src="assets/pslv.svg" alt="PSLV - Polar Satellite Launch Vehicle" loading="lazy" />
+                <span class="vehicle-name">PSLV</span>
+                <div class="vehicle-stats">
+                  <span class="stat">Height: 44m</span>
+                  <span class="stat">Payload: 1,750 kg to SSO</span>
+                  <span class="stat">60+ successful missions</span>
+                </div>
+              </article>
+              <article class="vehicle-item vehicle-gslv" data-vehicle="gslv">
+                <img src="assets/gslv.svg" alt="GSLV - Geosynchronous Satellite Launch Vehicle" loading="lazy" />
+                <span class="vehicle-name">GSLV</span>
+                <div class="vehicle-stats">
+                  <span class="stat">Height: 49m</span>
+                  <span class="stat">Payload: 2,500 kg to GTO</span>
+                  <span class="stat">Indigenous cryogenic stage</span>
+                </div>
+              </article>
+              <article class="vehicle-item vehicle-lvm3" data-vehicle="lvm3">
+                <img src="assets/lmkIII.svg" alt="LVM3 - Launch Vehicle Mark III" loading="lazy" />
+                <span class="vehicle-name">LVM3</span>
+                <div class="vehicle-stats">
+                  <span class="stat">Height: 43.5m</span>
+                  <span class="stat">Payload: 4,000 kg to GTO</span>
+                  <span class="stat">Chandrayaan & Gaganyaan</span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="explorer-stage">
+            <iframe id="satelliteExperience" src="../../satellite/client/index.html#globeSection" loading="eager" title="ISRO Satellite Explorer"></iframe>
+            <aside id="simGuidance" class="sim-guidance" hidden>
+              <p id="simGuidanceText">Interactive simulation is available in this frame. Enter to explore missions and inspect satellite markers.</p>
+              <!-- <button id="simGuidanceExit" class="sim-guidance-exit" hidden>Leave Simulation Mode</button> -->
+            </aside>
+            <div class="sim-controls">
+              <button id="enterSim" class="sim-btn" onclick="window.forceOpenSimulation && window.forceOpenSimulation()">Open Simulation</button>
+              <button id="exitSim" class="sim-btn" hidden>Exit Simulation Mode</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="milestones" class="section milestones">
+      <div class="milestones-head">
+        <h2 class="section-title">Defining Missions In Orbit</h2>
+        <p class="section-desc">Explore the landmark missions that define India's space journey. From early experiments to reaching Mars, each of these steps pushed the very boundaries of human ambition, proving our capability to touch the stars and redefining what is possible.</p>
+      </div>
+
+      <div class="milestones-scroll" id="milestonesScroll">
+        <div class="milestones-sticky">
+          <div class="milestones-canvas" id="milestonesCanvas" aria-label="Milestone satellites">
+            <article class="milestone-item" data-index="0">
+              <img src="./assets/milestones/Aryabhata.png" alt="Earth from space" loading="lazy" />
+              <div class="milestone-copy">
+                <p class="milestone-meta"><span class="m-label m-year">Launch Year:</span> 1975</p>
+                <h3 class="milestone-title">Aryabhata</h3>
+                <div class="milestone-specs">
+                  <p class="milestone-orbit"><span class="m-label">Orbit</span>Low Earth Orbit (LEO)</p>
+                  <p class="milestone-vehicle"><span class="m-label">Vehicle</span>Kosmos-3M</p>
+                </div>
+                <div class="milestone-details">
+                  <p class="milestone-desc"><span class="m-label">Achievement</span>India’s first-ever satellite, built to learn how to design, launch, and operate spacecraft.</p>
+                  <p class="milestone-impact"><span class="m-label">Impact</span>Proved that India could build and command its own space technology.</p>
+                  <p class="milestone-success"><span class="m-label">Outcome</span>A proud first step that paved the way for everything to come.</p>
+                </div>
+              </div>
+            </article>
+            <article class="milestone-item" data-index="1">
+              <img src="./assets/milestones/INSAT-1B.png" alt="Deep space field" loading="lazy" />
+              <div class="milestone-copy">
+                <p class="milestone-meta"><span class="m-label m-year">Launch Year:</span> 1983</p>
+                <h3 class="milestone-title">INSAT-1B</h3>
+                <div class="milestone-specs">
+                  <p class="milestone-orbit"><span class="m-label">Orbit</span>Geostationary Orbit (GEO)</p>
+                  <p class="milestone-vehicle"><span class="m-label">Vehicle</span>Space Shuttle Challenger</p>
+                </div>
+                <div class="milestone-details">
+                  <p class="milestone-desc"><span class="m-label">Achievement</span>A game-changer that brought telecom, TV, and weather tracking into a single satellite.</p>
+                  <p class="milestone-impact"><span class="m-label">Impact</span>Connected remote villages to the rest of the nation and established life-saving disaster warnings.</p>
+                  <p class="milestone-success"><span class="m-label">Outcome</span>Brought the benefits of space technology directly into everyday Indian homes.</p>
+                </div>
+              </div>
+            </article>
+            <article class="milestone-item" data-index="2">
+              <img src="./assets/milestones/IRS-1A.png" alt="Full Moon" loading="lazy" />
+              <div class="milestone-copy">
+                <p class="milestone-meta"><span class="m-label m-year">Launch Year:</span> 1988</p>
+                <h3 class="milestone-title">IRS-1A</h3>
+                <div class="milestone-specs">
+                  <p class="milestone-orbit"><span class="m-label">Orbit</span>Sun-Synchronous Orbit (SSO)</p>
+                  <p class="milestone-vehicle"><span class="m-label">Vehicle</span>Vostok-2M</p>
+                </div>
+                <div class="milestone-details">
+                  <p class="milestone-desc"><span class="m-label">Achievement</span>India’s first dedicated eye in the sky for high-quality remote sensing and Earth observation.</p>
+                  <p class="milestone-impact"><span class="m-label">Impact</span>Gave the nation crucial data to manage farming, water resources, and forests.</p>
+                  <p class="milestone-success"><span class="m-label">Outcome</span>Started a continuous legacy of watching over our planet from above.</p>
+                </div>
+              </div>
+            </article>
+            <article class="milestone-item" data-index="3">
+              <img src="./assets/milestones/Chandrayaan-1.png" alt="Mars surface image" loading="lazy" />
+              <div class="milestone-copy">
+                <p class="milestone-meta"><span class="m-label m-year">Launch Year:</span> 2008</p>
+                <h3 class="milestone-title">Chandrayaan-1</h3>
+                <div class="milestone-specs">
+                  <p class="milestone-orbit"><span class="m-label">Orbit</span>Lunar Polar Orbit</p>
+                  <p class="milestone-vehicle"><span class="m-label">Vehicle</span>PSLV-XL</p>
+                </div>
+                <div class="milestone-details">
+                  <p class="milestone-desc"><span class="m-label">Achievement</span>India's first deep-space mission, orbiting the Moon and dropping a probe to its surface.</p>
+                  <p class="milestone-impact"><span class="m-label">Impact</span>Made history by discovering concrete evidence of water molecules on the Moon.</p>
+                  <p class="milestone-success"><span class="m-label">Outcome</span>Made the world take notice of India's scientific and exploration spirit.</p>
+                </div>
+              </div>
+            </article>
+            <article class="milestone-item" data-index="4">
+              <img src="./assets//milestones/Mars-Orbiter-Mission.png" alt="Earth from space" loading="lazy" />
+              <div class="milestone-copy">
+                <p class="milestone-meta"><span class="m-label m-year">Launch Year:</span> 2013</p>
+                <h3 class="milestone-title">Mars Orbiter Mission</h3>
+                <div class="milestone-specs">
+                  <p class="milestone-orbit"><span class="m-label">Orbit</span>Mars Elliptical Orbit</p>
+                  <p class="milestone-vehicle"><span class="m-label">Vehicle</span>PSLV-XL</p>
+                </div>
+                <div class="milestone-details">
+                  <p class="milestone-desc"><span class="m-label">Achievement</span>Reached the Red Planet on its very first try, completing the mission in record time and budget.</p>
+                  <p class="milestone-impact"><span class="m-label">Impact</span>Proved India could handle the extreme challenges of deep-space travel and communication.</p>
+                  <p class="milestone-success"><span class="m-label">Outcome</span>Elevated India into an elite group of nations capable of reaching Mars.</p>
+                </div>
+              </div>
+            </article>
+            <article class="milestone-item" data-index="5">
+              <img src="./assets/milestones/NavIC.png" alt="Deep space field" loading="lazy" />
+              <div class="milestone-copy">
+                <p class="milestone-meta"><span class="m-label m-year">Launch Year:</span> 2016</p>
+                <h3 class="milestone-title">NavIC Constellation</h3>
+                <div class="milestone-specs">
+                  <p class="milestone-orbit"><span class="m-label">Orbit</span>IGSO + GEO</p>
+                  <p class="milestone-vehicle"><span class="m-label">Vehicle</span>PSLV Variants</p>
+                </div>
+                <div class="milestone-details">
+                  <p class="milestone-desc"><span class="m-label">Achievement</span>Created a dedicated and highly accurate navigation network specifically for India and its neighbors.</p>
+                  <p class="milestone-impact"><span class="m-label">Impact</span>Freed critical infrastructure and military operations from relying on foreign GPS systems.</p>
+                  <p class="milestone-success"><span class="m-label">Outcome</span>Gave India complete independence in modern tracking and positioning.</p>
+                </div>
+              </div>
+            </article>
+            <article class="milestone-item" data-index="6">
+              <img src="./assets/milestones/Cartosat-3.png" alt="Mars surface image" loading="lazy" />
+              <div class="milestone-copy">
+                <p class="milestone-meta"><span class="m-label m-year">Launch Year:</span> 2019</p>
+                <h3 class="milestone-title">Cartosat-3</h3>
+                <div class="milestone-specs">
+                  <p class="milestone-orbit"><span class="m-label">Orbit</span>Sun-Synchronous Orbit (SSO)</p>
+                  <p class="milestone-vehicle"><span class="m-label">Vehicle</span>PSLV-XL</p>
+                </div>
+                <div class="milestone-details">
+                  <p class="milestone-desc"><span class="m-label">Achievement</span>Launched one of the sharpest cameras in orbit, capable of incredibly detailed Earth photography.</p>
+                  <p class="milestone-impact"><span class="m-label">Impact</span>Revolutionized border monitoring, city infrastructure planning, and precise mapping.</p>
+                  <p class="milestone-success"><span class="m-label">Outcome</span>Brought unblinking clarity to national security and civilian planning.</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="global-reach" class="section global-reach">
+      <div class="global-reach-header">
+        <h2 class="section-title">ISRO Global Reach</h2>
+        <p class="section-desc">ISRO has launched 434 foreign satellites from 36 countries. This infographic shows the continent-wise share through the color-coded PSLV map.</p>
+      </div>
+
+      <div class="global-poster infographic-poster" aria-label="Continental launch share infographic">
+        <div class="infographic-column left">
+          <article class="continent-card continent-na" data-continent="north-america">
+            <h3>North America</h3>
+            <p class="share">56.5%</p>
+            <p class="continent-meta">3 countries · 246 satellites</p>
+            <p class="continent-fact">North America dominates ISRO's foreign launches, with missions largely focused on Earth observation and communications payloads.</p>
+            <div class="country-flags" aria-label="North America countries">
+              <button type="button" class="country-flag" data-country="United States" data-count="233"><img src="assets/continents/north-america/us.svg" alt="United States" /></button>
+              <button type="button" class="country-flag" data-country="Canada" data-count="12"><img src="assets/continents/north-america/canada.svg" alt="Canada" /></button>
+              <button type="button" class="country-flag" data-country="Mexico" data-count="1"><img src="assets/continents/north-america/mexico.svg" alt="Mexico" /></button>
+            </div>
+          </article>
+
+          <article class="continent-card continent-asia" data-continent="asia">
+            <h3>Asia</h3>
+            <p class="share">9.4%</p>
+            <p class="continent-meta">9 countries · 41 satellites</p>
+            <p class="continent-fact">Asian payloads include telecom, maritime, and remote-sensing satellites, with Singapore leading this group in launch volume.</p>
+            <div class="country-flags" aria-label="Asia countries">
+              <button type="button" class="country-flag" data-country="Singapore" data-count="20"><img src="assets/continents/asia/singapore.svg" alt="Singapore" /></button>
+              <button type="button" class="country-flag" data-country="South Korea" data-count="6"><img src="assets/continents/asia/korea.svg" alt="South Korea" /></button>
+              <button type="button" class="country-flag" data-country="Japan" data-count="5"><img src="assets/continents/asia/japan.svg" alt="Japan" /></button>
+              <button type="button" class="country-flag" data-country="Israel" data-count="3"><img src="assets/continents/asia/israel.svg" alt="Israel" /></button>
+              <button type="button" class="country-flag" data-country="Indonesia" data-count="3"><img src="assets/continents/asia/indonesia.svg" alt="Indonesia" /></button>
+              <button type="button" class="country-flag" data-country="Malaysia" data-count="1"><img src="assets/continents/asia/malaysia.svg" alt="Malaysia" /></button>
+              <button type="button" class="country-flag" data-country="Turkey" data-count="1"><img src="assets/continents/asia/turkey.svg" alt="Turkey" /></button>
+              <button type="button" class="country-flag" data-country="Kazakhstan" data-count="1"><img src="assets/continents/asia/kazakhstan.svg" alt="Kazakhstan" /></button>
+              <button type="button" class="country-flag" data-country="UAE" data-count="1"><img src="assets/continents/asia/uae.svg" alt="UAE" /></button>
+            </div>
+          </article>
+
+          <article class="continent-card continent-africa" data-continent="africa">
+            <h3>Africa</h3>
+            <p class="share">0.9%</p>
+            <p class="continent-meta">1 country · 4 satellites</p>
+            <p class="continent-fact">Africa's represented missions are led by Algeria's Earth observation satellites used for mapping and resource monitoring.</p>
+            <div class="country-flags" aria-label="Africa countries">
+              <button type="button" class="country-flag" data-country="Algeria" data-count="4"><img src="assets/continents/africa/algeria.svg" alt="Algeria" /></button>
+            </div>
+          </article>
+        </div>
+
+        <div class="infographic-center launch-scene-static" id="posterCenterFrame">
+          <img src="assets/half-n-half-pslv.svg" alt="PSLV silhouette colored by continent launch share" class="center-graphic infographic-rocket" id="staticLaunchpadImg" />
+          <svg class="rocket-hitareas-svg" viewBox="0 0 201 1649" preserveAspectRatio="xMidYMid meet" aria-label="Select continent by rocket color" role="group">
+            <defs>
+              <clipPath id="rocketHitClip">
+                <path d="M100 30 C122 38 138 80 145 130 L155 180 L155 1500 C155 1570 142 1625 122 1638 C110 1646 92 1646 80 1638 C60 1625 47 1570 47 1500 L47 180 L55 130 C62 80 78 38 100 30 Z" />
+              </clipPath>
+            </defs>
+
+            <g clip-path="url(#rocketHitClip)">
+              <rect class="rocket-band-zone zone-na" data-continent="north-america" x="0" y="0" width="201" height="942" tabindex="0" role="button" aria-label="North America region"></rect>
+              <rect class="rocket-band-zone zone-europe" data-continent="europe" x="0" y="942" width="201" height="519" tabindex="0" role="button" aria-label="Europe region"></rect>
+              <rect class="rocket-band-zone zone-asia" data-continent="asia" x="0" y="1461" width="201" height="151" tabindex="0" role="button" aria-label="Asia region"></rect>
+              <rect class="rocket-band-zone zone-africa" data-continent="africa" x="0" y="1598" width="201" height="24" tabindex="0" role="button" aria-label="Africa region"></rect>
+              <rect class="rocket-band-zone zone-sa" data-continent="south-america" x="0" y="1620" width="201" height="18" tabindex="0" role="button" aria-label="South America region"></rect>
+              <rect class="rocket-band-zone zone-oceania" data-continent="oceania" x="0" y="1636" width="201" height="13" tabindex="0" role="button" aria-label="Oceania region"></rect>
+            </g>
+          </svg>
+        </div>
+
+        <div class="rocket-continent-legend" aria-label="Continent color legend">
+          <p class="rocket-legend-cue">Click and explore these continents in details.</p>
+          <p class="rocket-legend-title">Launch Share Legend</p>
+          <div class="rocket-legend-grid">
+            <button type="button" class="rocket-legend-item" data-continent-target="north-america" aria-label="Open North America card">
+              <span class="rocket-legend-swatch swatch-na" aria-hidden="true"></span>
+              <span class="rocket-legend-label">North America</span>
+            </button>
+            <button type="button" class="rocket-legend-item" data-continent-target="europe" aria-label="Open Europe card">
+              <span class="rocket-legend-swatch swatch-europe" aria-hidden="true"></span>
+              <span class="rocket-legend-label">Europe</span>
+            </button>
+            <button type="button" class="rocket-legend-item" data-continent-target="asia" aria-label="Open Asia card">
+              <span class="rocket-legend-swatch swatch-asia" aria-hidden="true"></span>
+              <span class="rocket-legend-label">Asia</span>
+            </button>
+            <button type="button" class="rocket-legend-item" data-continent-target="africa" aria-label="Open Africa card">
+              <span class="rocket-legend-swatch swatch-africa" aria-hidden="true"></span>
+              <span class="rocket-legend-label">Africa</span>
+            </button>
+            <button type="button" class="rocket-legend-item" data-continent-target="south-america" aria-label="Open South America card">
+              <span class="rocket-legend-swatch swatch-sa" aria-hidden="true"></span>
+              <span class="rocket-legend-label">South America</span>
+            </button>
+            <button type="button" class="rocket-legend-item" data-continent-target="oceania" aria-label="Open Oceania card">
+              <span class="rocket-legend-swatch swatch-oceania" aria-hidden="true"></span>
+              <span class="rocket-legend-label">Oceania</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="infographic-column right">
+          <article class="continent-card continent-europe" data-continent="europe">
+            <h3>Europe</h3>
+            <p class="share">32.0%</p>
+            <p class="continent-meta">20 countries · 139 satellites</p>
+            <p class="continent-fact">Europe is the second largest launch partner, with payloads spanning Earth observation, technology demos, and smallsat constellations.</p>
+            <div class="country-flags" aria-label="Europe countries">
+              <button type="button" class="country-flag" data-country="United Kingdom" data-count="84"><img src="assets/continents/europe/uk.svg" alt="United Kingdom" /></button>
+              <button type="button" class="country-flag" data-country="Germany" data-count="11"><img src="assets/continents/europe/germany.svg" alt="Germany" /></button>
+              <button type="button" class="country-flag" data-country="Italy" data-count="5"><img src="assets/continents/europe/italy.svg" alt="Italy" /></button>
+              <button type="button" class="country-flag" data-country="Luxembourg" data-count="5"><img src="assets/continents/europe/luxembourg.svg" alt="Luxembourg" /></button>
+              <button type="button" class="country-flag" data-country="Belgium" data-count="4"><img src="assets/continents/europe/belgium.svg" alt="Belgium" /></button>
+              <button type="button" class="country-flag" data-country="Finland" data-count="4"><img src="assets/continents/europe/finland.svg" alt="Finland" /></button>
+              <button type="button" class="country-flag" data-country="Lithuania" data-count="4"><img src="assets/continents/europe/lithuania.svg" alt="Lithuania" /></button>
+              <button type="button" class="country-flag" data-country="Switzerland" data-count="4"><img src="assets/continents/europe/switzerland.svg" alt="Switzerland" /></button>
+              <button type="button" class="country-flag" data-country="Austria" data-count="3"><img src="assets/continents/europe/austria.svg" alt="Austria" /></button>
+              <button type="button" class="country-flag" data-country="France" data-count="3"><img src="assets/continents/europe/france.svg" alt="France" /></button>
+              <button type="button" class="country-flag" data-country="Spain" data-count="2"><img src="assets/continents/europe/spain.svg" alt="Spain" /></button>
+              <button type="button" class="country-flag" data-country="Netherlands" data-count="2"><img src="assets/continents/europe/netherland.svg" alt="Netherlands" /></button>
+              <button type="button" class="country-flag" data-country="Denmark" data-count="2"><img src="assets/continents/europe/denmark.svg" alt="Denmark" /></button>
+              <button type="button" class="country-flag" data-country="Czech Republic" data-count="1"><img src="assets/continents/europe/czech-republic.svg" alt="Czech Republic" /></button>
+              <button type="button" class="country-flag" data-country="Latvia" data-count="1"><img src="assets/continents/europe/latvia.svg" alt="Latvia" /></button>
+              <button type="button" class="country-flag" data-country="Norway" data-count="1"><img src="assets/continents/europe/norway.svg" alt="Norway" /></button>
+              <button type="button" class="country-flag" data-country="Slovakia" data-count="1"><img src="assets/continents/europe/slovakia.svg" alt="Slovakia" /></button>
+              <button type="button" class="country-flag" data-country="ESA" data-count="1"><img src="assets/continents/europe/eu.svg" alt="ESA" /></button>
+            </div>
+          </article>
+
+          <article class="continent-card continent-south-america" data-continent="south-america">
+            <h3>South America</h3>
+            <p class="share">0.9%</p>
+            <p class="continent-meta">4 countries · 4 satellites</p>
+            <p class="continent-fact">South American missions are compact but diverse, with single satellite launches from four countries.</p>
+            <div class="country-flags" aria-label="South America countries">
+              <button type="button" class="country-flag" data-country="Brazil" data-count="1"><img src="assets/continents/south-america/brazil.svg" alt="Brazil" /></button>
+              <button type="button" class="country-flag" data-country="Argentina" data-count="1"><img src="assets/continents/south-america/argentina.svg" alt="Argentina" /></button>
+              <button type="button" class="country-flag" data-country="Chile" data-count="1"><img src="assets/continents/south-america/chile.svg" alt="Chile" /></button>
+              <button type="button" class="country-flag" data-country="Colombia" data-count="1"><img src="assets/continents/south-america/columbia.svg" alt="Colombia" /></button>
+            </div>
+          </article>
+
+          <article class="continent-card continent-oceania" data-continent="oceania">
+            <h3>Oceania</h3>
+            <p class="share">0.2%</p>
+            <p class="continent-meta">1 country · 1 satellite</p>
+            <p class="continent-fact">Oceania appears with Australia, reflecting early smallsat collaboration and university-driven payload participation.</p>
+            <div class="country-flags" aria-label="Oceania countries">
+              <button type="button" class="country-flag" data-country="Australia" data-count="1"><img src="assets/continents/oceania/australia.svg" alt="Australia" /></button>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="insight-carousel" aria-label="Launch insights">
+        <h3 class="global-highlights-title">Key Highlights</h3>
+        <div class="insight-track">
+          <article class="insight-card">
+            <h3>PSLV-C37 Record Flight</h3>
+            <p>On 15 February 2017, PSLV-C37 launched 104 satellites in one mission, including 101 international payloads.</p>
+          </article>
+          <article class="insight-card">
+            <h3>OneWeb Dual Campaign</h3>
+            <p>LVM3 launched 36 OneWeb satellites in October 2022 and 36 more in March 2023, delivering 72 satellites in two flights.</p>
+          </article>
+          <article class="insight-card">
+            <h3>Country Coverage</h3>
+            <p>ISRO has served 36 countries through foreign satellite launches, spanning all six inhabited continents in this infographic.</p>
+          </article>
+          <article class="insight-card">
+            <h3>Scale Summary</h3>
+            <p>The foreign launch count stands at 434 satellites, with the largest share from North America and Europe.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="creditsScreen" class="section credits-layer" aria-label="References and Credits">
+      <div class="credits-grid">
+        <div class="credits-left">
+          <div class="credits-logo">
+            <img src="assets/dau-logo.png" alt="DAU Logo" height="88" widrth="88">
+          </div>
+          <p class="credits-program">M.des Intelligent User Experience Design (IUxD)</p>
+          <div class="credits-attribution">
+            <p class="credits-presented">Presented by</p>
+            <h3 class="credits-name">Anuj Rai</h3>
+            <p class="credits-role">Designed & Developed by</p>
+          </div>
+          <div class="credits-guided">
+            <p class="credits-label">Guided by</p>
+            <h4 class="credits-guide-name">Dr. Anupam Rana</h4>
+          </div>
+          <div class="credits-thanks">
+            <p class="credits-label">Special Thanks</p>
+            <p class="credits-thanks-text">To <strong>ISRO</strong> for the extraordinary work in India's space program, and to <strong>Cesium</strong> for the open-source 3D geospatial platform that made this simulation possible. This project is a tribute to the tremendous contributions of ISRO's scientists and engineers.</p>
+          </div>
+        </div>
+
+        <div class="credits-right">
+          <h2>Methodology & Research</h2>
+
+          <div class="methodology-step">
+            <span class="methodology-bullet" aria-hidden="true">•</span>
+            <div>
+              <h4>Understanding the Data</h4>
+              <p>I started by building a full record of Indian space history. This meant tracking down every mission ISRO has undertaken since the days of Aryabhata in 1975, alongside all foreign satellites launched by ISRO's commercial arm.</p>
+            </div>
+          </div>
+
+          <div class="methodology-step">
+            <span class="methodology-bullet" aria-hidden="true">•</span>
+            <div>
+              <h4>Fragmentation & Selection</h4>
+              <p>The data was split between Indian missions and international commercial launches. This project highlights 118 Indian satellites and 434 foreign craft from 36 different nations, choosing only those with verified orbital paths and reliable mission details.</p>
+            </div>
+          </div>
+
+          <div class="methodology-step">
+            <span class="methodology-bullet" aria-hidden="true">•</span>
+            <div>
+              <h4>Launch Vehicle Representation</h4>
+              <p>I chose the PSLV as the central visual symbol of this tracker. With more than 60 successful flights, this "workhorse" isn't just a rocket: its silhouette has become the defining image of India’s reliability and reach in the global space market.</p>
+            </div>
+          </div>
+
+          <div class="methodology-step">
+            <span class="methodology-bullet" aria-hidden="true">•</span>
+            <div>
+              <h4>Orbital Computation</h4>
+              <p>To keep the visualization accurate, I pull real-time TLE data from CelesTrak for active satellites, using the SGP4 algorithm to predict their movement. For the older, silent missions, I rely on stable calculations based on their last known orbital characteristics.</p>
+            </div>
+          </div>
+
+
+          <div class="source-list">
+            <h4>Sources & References</h4>
+            <div class="source-grid">
+              <a href="https://www.isro.gov.in" target="_blank" rel="noopener">ISRO Official</a>
+              <a href="https://www.n2yo.com" target="_blank" rel="noopener">N2YO Tracker</a>
+              <a href="https://celestrak.org" target="_blank" rel="noopener">CelesTrak TLE</a>
+              <a href="https://www.space-track.org" target="_blank" rel="noopener">SpaceTrack</a>
+              <a href="https://en.wikipedia.org" target="_blank" rel="noopener">Wikipedia</a>
+              <a href="https://satnow.com" target="_blank" rel="noopener">SatNow</a>
+              <a href="https://cesium.com" target="_blank" rel="noopener">CesiumJS</a>
+              <a href="https://www.isro.gov.in/launchers" target="_blank" rel="noopener">ISRO Launchers</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.111/Build/Cesium/Cesium.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/satellite.js@5.0.0/dist/satellite.min.js"></script>
+  <script src="satelliteData.js"></script>
+  <script src="propagation.js"></script>
+  <script src="orbitGuide.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
