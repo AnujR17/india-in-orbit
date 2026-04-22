@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISRO Satellite Tracker</title>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.111/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { overflow-y: auto; overflow-x: hidden; }
+    body { background: #060c18; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; color: #fff; overflow-x: hidden; }
+
+    .globe-section { position: relative; width: 100%; height: 100vh; scroll-snap-align: start; overflow: hidden; background: transparent; z-index: 1; }
+    #cesiumContainer { width: 100%; height: 100%; background: transparent; }
+    #cesiumContainer.cesium-blurred { filter: blur(2.2px) brightness(0.28); }
+
+    .cesium-widget-credits, .cesium-viewer-bottom, .cesium-viewer-toolbar,
+    .cesium-viewer-fullscreenContainer, .cesium-viewer-vrContainer,
+    .cesium-viewer-animationContainer, .cesium-viewer-timelineContainer,
+    .cesium-viewer-geocoderContainer, .cesium-navigationHelpButton-wrapper,
+    .cesium-viewer .cesium-widget-credits, .cesium-credit-logoContainer,
+    .cesium-credit-expand-link, .cesium-credit-textContainer,
+    .cesium-viewer-infoBoxContainer, .cesium-infoBox
+    { display: none !important; visibility: hidden !important; }
+
+    /* ===== BOTTOM BAR ===== */
+    .bottom-bar {
+      position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 14px; padding: 10px 22px;
+      background: rgba(0, 8, 20, 0.8); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50px; backdrop-filter: blur(12px); z-index: 1000;
+    }
+    .stat { display: flex; align-items: center; gap: 5px; font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500; }
+    .stat-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .stat-dot.leo { background: #ff00ff; box-shadow: 0 0 5px #ff00ff; }
+    .stat-dot.sso { background: #00ff88; box-shadow: 0 0 5px #00ff88; }
+    .stat-dot.geo { background: #ff8c00; box-shadow: 0 0 5px #ff8c00; }
+    .stat-dot.gso { background: #00d4ff; box-shadow: 0 0 5px #00d4ff; }
+    .stat-dot.active { background: #00ff88; box-shadow: 0 0 5px #00ff88; }
+    .divider { width: 1px; height: 18px; background: rgba(255,255,255,0.15); }
+    .toggle-btn {
+      padding: 5px 11px; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15); border-radius: 20px;
+      color: rgba(255,255,255,0.8); font-size: 11px; font-weight: 500;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .toggle-btn:hover { background: rgba(255,255,255,0.15); }
+    .toggle-btn.active { background: rgba(0,212,255,0.25); border-color: rgba(0,212,255,0.5); color: #fff; }
+
+    /* Clickable orbit stats in bottom bar */
+    .stat.clickable {
+      cursor: pointer; padding: 3px 8px; border-radius: 12px;
+      transition: all 0.25s ease; user-select: none;
+    }
+    .stat.clickable:hover { background: rgba(255,255,255,0.1); }
+    .stat.clickable.orbit-highlight {
+      background: rgba(255,255,255,0.15); box-shadow: 0 0 8px rgba(255,255,255,0.1);
+    }
+
+    .loading {
+      position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+      padding: 8px 16px; background: rgba(0,8,20,0.9); border-radius: 20px;
+      color: #00d4ff; font-size: 12px; z-index: 1000; font-weight: 500;
+    }
+
+    /* ===== SATELLITE INFO CARD (BOTTOM-RIGHT) ===== */
+    .sat-card {
+      position: absolute;
+      bottom: 80px;
+      right: 25px;
+      width: 340px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      background: rgba(6, 12, 24, 0.98);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 28px;
+      backdrop-filter: blur(32px);
+      z-index: 1001;
+      overflow-x: hidden;
+      animation: cardSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 -20px 60px rgba(0,0,0,0.7), 0 0 1px rgba(255,255,255,0.2);
+    }
+    .sat-card::-webkit-scrollbar { width: 4px; }
+    .sat-card::-webkit-scrollbar-track { background: transparent; }
+    .sat-card::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+    @keyframes cardSlideIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Card Image */
+    .card-image {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0a1628 0%, #141e30 100%);
+    }
+    .card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(transparent, rgba(6, 12, 24, 0.95));
+    }
+    /* No-image fallback */
+    .card-image .no-image-fallback {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0c1a2e 0%, #162240 50%, #0c1a2e 100%);
+      color: rgba(255,255,255,0.15);
+      font-size: 42px; font-weight: 900; letter-spacing: 2px;
+    }
+    .card-orbit-indicator {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      gap: 6px;
+    }
+    .card-orbit-pill {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(8px);
+    }
+    .card-orbit-pill.leo { background: rgba(255,0,255,0.2); color: #ff00ff; border: 1px solid rgba(255,0,255,0.4); }
+    .card-orbit-pill.sso { background: rgba(0,255,136,0.2); color: #00ff88; border: 1px solid rgba(0,255,136,0.4); }
+    .card-orbit-pill.geo { background: rgba(255,140,0,0.2); color: #ff8c00; border: 1px solid rgba(255,140,0,0.4); }
+    .card-orbit-pill.gso { background: rgba(0,212,255,0.2); color: #00d4ff; border: 1px solid rgba(0,212,255,0.4); }
+    .card-orbit-pill.heo { background: rgba(255,255,255,0.15); color: #ffffff; border: 1px solid rgba(255,255,255,0.3); }
+    .card-status-pill {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+    }
+    .card-status-pill.pill-active { background: rgba(0,255,136,0.2); color: #00ff88; border: 1px solid rgba(0,255,136,0.3); }
+    .card-status-pill.pill-inactive { background: rgba(255,100,100,0.2); color: #ff6464; border: 1px solid rgba(255,100,100,0.3); }
+
+    /* Card Name */
+    .card-name {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0 18px 14px;
+      z-index: 2;
+    }
+    .card-name h3 {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    /* Card Body Section */
+    .card-body { padding: 18px 18px 24px; }
+    .card-info-grid { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 16px 20px; 
+    }
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .info-label { 
+      font-size: 10px; 
+      color: rgba(255,255,255,0.35); 
+      font-weight: 600; 
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .info-value { 
+      font-size: 13px; 
+      color: rgba(255,255,255,0.95); 
+      font-weight: 700; 
+    }
+    .full-width { grid-column: span 2; }
+
+    /* Card Close */
+    .card-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+      z-index: 3;
+      backdrop-filter: blur(8px);
+    }
+    .card-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+    .wiki-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 18px;
+      padding: 10px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      color: #00d4ff;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .wiki-link:hover {
+      background: rgba(0,212,255,0.1);
+      border-color: #00d4ff;
+    }
+  </style>
+</head>
+<body>
+
+<!-- GLOBE SECTION -->
+<section class="globe-section" id="globeSection">
+  <div id="cesiumContainer"></div>
+  <div class="loading" id="loading">Loading satellites...</div>
+
+  <div class="sat-card" id="satCard" style="display: none;">
+    <div class="card-image" id="cardImageWrap">
+      <img id="cardImage" src="" alt="">
+      <div class="card-orbit-indicator">
+        <span class="card-orbit-pill" id="cardOrbitPill">GEO</span>
+        <span class="card-status-pill" id="cardStatusPill">ACTIVE</span>
+      </div>
+      <div class="card-name"><h3 id="cardName">—</h3></div>
+    </div>
+    <button class="card-close" id="cardClose">×</button>
+    <div class="card-body">
+      <div class="card-info-grid">
+        <div class="info-item">
+          <div class="info-label">Altitude</div>
+          <div class="info-value" id="cardAlt">—</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Launch Vehicle</div>
+          <div class="info-value" id="cardRocket">—</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Mass</div>
+          <div class="info-value" id="cardMass">—</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Mission Life</div>
+          <div class="info-value" id="cardLife">—</div>
+        </div>
+        <div class="info-item full-width">
+          <div class="info-label">Purpose</div>
+          <div class="info-value" id="cardPurpose">—</div>
+        </div>
+        <div class="info-item full-width">
+          <div class="info-label">Launch Date</div>
+          <div class="info-value" id="cardLaunch">—</div>
+        </div>
+      </div>
+
+      <a id="cardWiki" href="#" target="_blank" class="wiki-link">
+        <span>View on Wikipedia</span>
+      </a>
+    </div>
+  </div>
+
+
+  <div class="bottom-bar" id="bottomBar" style="display: none;">
+    <div class="stat"><span class="stat-dot active"></span><span id="activeCount">0</span> Active</div>
+    <div class="stat" id="inactiveCountWrap" style="display:none;"><span style="color:rgba(255,100,100,0.85)">•</span><span id="inactiveCount">0</span> Inactive</div>
+    <div class="divider"></div>
+    <div class="stat clickable" data-orbit="LEO" id="orbitLEO"><span class="stat-dot leo"></span><span id="leoCount">0</span> LEO</div>
+    <div class="stat clickable" data-orbit="SSO" id="orbitSSO"><span class="stat-dot sso"></span><span id="ssoCount">0</span> SSO</div>
+    <div class="stat clickable" data-orbit="GEO" id="orbitGEO"><span class="stat-dot geo"></span><span id="geoCount">0</span> GEO</div>
+    <div class="stat clickable" data-orbit="GSO" id="orbitGSO"><span class="stat-dot gso"></span><span id="gsoCount">0</span> GSO</div>
+    <div class="divider"></div>
+    <button class="toggle-btn active" id="toggleOrbits">Orbits</button>
+    <button class="toggle-btn active" id="toggleActive">Active</button>
+    <button class="toggle-btn active" id="toggleInactive">Inactive</button>
+  </div>
+</section>
+
+<script src="https://cesium.com/downloads/cesiumjs/releases/1.111/Build/Cesium/Cesium.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
