@@ -1,0 +1,28 @@
+{
+  "version": 2,
+  "name": "isro-satellite-dashboard",
+  "builds": [
+    {
+      "src": "satellite/server/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "satellite/client/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/satellite/server/server.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/$1"
+    }
+  ]
+}

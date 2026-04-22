@@ -1379,7 +1379,7 @@ function initExplorerOverlayReveal(updateLaunchSequence) {
       const simIframe = document.getElementById("simIframe");
       if (simIframe && !simIframe.dataset.loaded) {
         simIframe.dataset.loaded = "1";
-        simIframe.src = "../../satellite/client/index.html";
+        simIframe.src = "satellite/client/index.html";
       }
     }
     // Lock page scroll
