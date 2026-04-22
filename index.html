@@ -112,29 +112,25 @@
               <div class="orbit-step-stat"><span>Altitude</span><strong>747 km (SSO)</strong></div>
             </div>
 
-            <article class="nisar-sat-card" id="nisarFixedCard" style="display:none;" aria-label="NISAR satellite summary">
-              <div class="nisar-sat-card-image">
+            <article class="sat-card nisar-sat-card" id="nisarFixedCard" style="display:none;" aria-label="NISAR satellite summary">
+              <div class="card-image">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Artist%27s_concept_of_NISAR_over_Earth.jpg" alt="NISAR satellite" />
-                <div class="nisar-sat-card-pills">
-                  <span class="nisar-pill sso" id="nisarOrbitPill">SSO</span>
-                  <span class="nisar-pill active" id="nisarStatusPill">ACTIVE</span>
+                <div class="card-orbit-indicator">
+                  <span class="card-orbit-pill sso" id="nisarOrbitPill">SSO</span>
+                  <span class="card-status-pill pill-active" id="nisarStatusPill">ACTIVE</span>
                 </div>
-                <div class="nisar-sat-card-name">
-                  <h3 id="nisarCardName">NISAR</h3>
-                </div>
+                <div class="card-name"><h3 id="nisarCardName">NISAR</h3></div>
               </div>
-              <div class="nisar-sat-card-body">
-                <div class="nisar-sat-grid">
-                  <div class="nisar-sat-item"><span>Orbit</span><strong id="nisarOrbitType">SSO</strong></div>
-                  <div class="nisar-sat-item"><span>Status</span><strong id="nisarStatusText">ACTIVE</strong></div>
-                  <div class="nisar-sat-item"><span>Altitude</span><strong id="nisarAltitude">747 km</strong></div>
-                  <div class="nisar-sat-item"><span>Launch</span><strong id="nisarLaunchDate">30 Jul 2025</strong></div>
-                  <div class="nisar-sat-item"><span>Mass</span><strong id="nisarMass">2,393 kg</strong></div>
-                  <div class="nisar-sat-item"><span>Vehicle</span><strong id="nisarVehicle">GSLV-F16</strong></div>
-                  <div class="nisar-sat-item nisar-sat-item-wide"><span>Mission Life</span><strong id="nisarMissionLife">3 years</strong></div>
-                  <div class="nisar-sat-item nisar-sat-item-wide"><span>Purpose</span><strong id="nisarPurpose">Earth Observation</strong></div>
+              <div class="card-body">
+                <div class="card-info-grid">
+                  <div class="info-item"><div class="info-label">Altitude</div><div class="info-value" id="nisarAltitude">747 km</div></div>
+                  <div class="info-item"><div class="info-label">Launch Vehicle</div><div class="info-value" id="nisarVehicle">GSLV-F16</div></div>
+                  <div class="info-item"><div class="info-label">Mass</div><div class="info-value" id="nisarMass">2,393 kg</div></div>
+                  <div class="info-item"><div class="info-label">Mission Life</div><div class="info-value" id="nisarMissionLife">3 years</div></div>
+                  <div class="info-item full-width"><div class="info-label">Purpose</div><div class="info-value" id="nisarPurpose">Earth Observation</div></div>
+                  <div class="info-item full-width"><div class="info-label">Launch Date</div><div class="info-value" id="nisarLaunchDate">30 Jul 2025</div></div>
                 </div>
-                <a class="nisar-sat-link" id="nisarDetailsLink" href="https://en.wikipedia.org/wiki/NISAR_(satellite)" target="_blank" rel="noopener">View Details</a>
+                <a class="wiki-link" id="nisarDetailsLink" href="https://en.wikipedia.org/wiki/NISAR_(satellite)" target="_blank" rel="noopener"><span>View on Wikipedia</span></a>
               </div>
             </article>
           </div>
@@ -176,14 +172,10 @@
           </div>
 
           <div class="explorer-stage">
-            <iframe id="satelliteExperience" src="../../satellite/client/index.html#globeSection" loading="eager" title="ISRO Satellite Explorer"></iframe>
-            <aside id="simGuidance" class="sim-guidance" hidden>
-              <p id="simGuidanceText">Interactive simulation is available in this frame. Enter to explore missions and inspect satellite markers.</p>
-              <!-- <button id="simGuidanceExit" class="sim-guidance-exit" hidden>Leave Simulation Mode</button> -->
-            </aside>
-            <div class="sim-controls">
-              <button id="enterSim" class="sim-btn" onclick="window.forceOpenSimulation && window.forceOpenSimulation()">Open Simulation</button>
-              <button id="exitSim" class="sim-btn" hidden>Exit Simulation Mode</button>
+            <iframe id="satelliteExperience" src="../../satellite/client/index.html" title="ISRO Satellite Explorer"></iframe>
+            <div class="sim-preview-panel" id="simPreviewPanel">
+              <p class="sim-preview-text">Explore ISRO's complete satellite fleet in an interactive 3D simulation powered by CesiumJS.</p>
+              <button id="enterSim" class="sim-btn">Open Simulation</button>
             </div>
           </div>
         </div>
@@ -567,6 +559,24 @@
       </div>
     </section>
   </main>
+
+  <!-- Fullscreen Simulation Overlay -->
+  <div id="simOverlay" class="sim-overlay" style="display:none;">
+    <iframe id="simIframe" class="sim-overlay-iframe" src="about:blank" title="ISRO Satellite Simulation"></iframe>
+    <div class="sim-overlay-panel" id="simOverlayPanel">
+      <h3 class="sim-overlay-title">Satellite Simulation</h3>
+      <div class="sim-overlay-instructions">
+        <p><strong>How to interact:</strong></p>
+        <ul>
+          <li><strong>Left/Right-click + drag</strong> — Rotate the globe</li>
+          <li><strong>Scroll wheel</strong> — Zoom in/out</li>
+          <li><strong>Click satellite dots</strong> — View satellite details</li>
+          <li>Use the <strong>bottom bar</strong> to filter orbits and toggle visibility</li>
+        </ul>
+      </div>
+      <button id="exitSim" class="sim-overlay-exit-btn">Leave Simulation</button>
+    </div>
+  </div>
 
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.111/Build/Cesium/Cesium.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/satellite.js@5.0.0/dist/satellite.min.js"></script>

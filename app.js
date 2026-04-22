@@ -38,25 +38,6 @@ initLiveBackground();
 initGlobalReachInteractivity();
 bootstrapThree();
 
-// Capture early simulation clicks before async init completes.
-window.__pendingSimulationOpen = false;
-window.forceOpenSimulation = () => {
-  window.__pendingSimulationOpen = true;
-  if (typeof window.onEnterSimulation === "function") {
-    window.onEnterSimulation();
-  }
-};
-
-document.addEventListener("click", event => {
-  const target = event.target instanceof Element ? event.target.closest("#enterSim") : null;
-  if (!target) return;
-  if (typeof window.onEnterSimulation === "function") {
-    window.onEnterSimulation();
-  } else {
-    window.__pendingSimulationOpen = true;
-  }
-});
-
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
@@ -1372,20 +1353,15 @@ function initExplorerOrbitSequence(THREE, GLTFLoader) {
 function initExplorerOverlayReveal(updateLaunchSequence) {
   const section = document.getElementById("explorer");
   const iframe = document.getElementById("satelliteExperience");
-  const preferredSimSrc = "../../satellite/client/index.html#globeSection";
-  const fallbackSimSrc = "http://localhost:3000/index.html#globeSection";
   const explorerStage = section ? section.querySelector(".explorer-stage") : null;
+  const previewPanel = document.getElementById("simPreviewPanel");
   const enterBtn = document.getElementById("enterSim");
   const exitBtn = document.getElementById("exitSim");
-  const controls = document.querySelector(".sim-controls");
-  const simGuidance = document.getElementById("simGuidance");
-  const simGuidanceText = document.getElementById("simGuidanceText");
-  const simGuidanceExit = document.getElementById("simGuidanceExit");
+  const simOverlay = document.getElementById("simOverlay");
   const orbitStory = section ? section.querySelector('.orbit-guided') : null;
   const vehicleStory = section ? section.querySelector('.vehicle-story') : null;
   const nisarCard = section ? section.querySelector('#nisarFixedCard') : null;
-  let inSimulation = false;
-  let simFrameGuard = null;
+
   window._simActive = false;
 
   const setStagePriority = on => {
@@ -1394,126 +1370,44 @@ function initExplorerOverlayReveal(updateLaunchSequence) {
     explorerStage.style.zIndex = on ? "16" : "5";
   };
 
-  function setSimulationMode(on) {
-    const ensureSimFrameVisible = () => {
-      if (!window._simActive || !iframe) return;
-      iframe.style.opacity = "1";
-      iframe.style.visibility = "visible";
-      iframe.style.display = "block";
-    };
-
-    inSimulation = on;
-    window._simActive = on;
-    if (section) section.classList.toggle("simulation-open", on);
-    if (iframe) iframe.style.pointerEvents = on ? "auto" : "none";
-    if (enterBtn) enterBtn.hidden = on;
-    if (exitBtn) exitBtn.hidden = !on;
-    if (simGuidanceExit) simGuidanceExit.hidden = !on;
-    if (simGuidanceText) {
-      simGuidanceText.textContent = on
-        ? "Simulation mode is active. Open mission dots to view satellite context, payload details, and orbit notes."
-        : "Interactive simulation is available in this frame. Enter to explore missions and inspect satellite markers.";
+  // ───── Fullscreen Simulation Overlay ─────
+  function openSimulation() {
+    window._simActive = true;
+    if (simOverlay) {
+      simOverlay.style.display = "block";
+      // Load the satellite client iframe on first open
+      const simIframe = document.getElementById("simIframe");
+      if (simIframe && !simIframe.dataset.loaded) {
+        simIframe.dataset.loaded = "1";
+        simIframe.src = "../../satellite/client/index.html";
+      }
     }
+    // Lock page scroll
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+  }
 
-    if (on) {
-      if (iframe) {
-        const currentSrc = iframe.getAttribute("src") || "";
-        if (!currentSrc) {
-          iframe.setAttribute("src", preferredSimSrc);
-        }
-      }
-      setStagePriority(true);
-      if (orbitStory) {
-        orbitStory.style.display = "none";
-        orbitStory.style.opacity = "0";
-        orbitStory.style.pointerEvents = "none";
-      }
-      if (vehicleStory) {
-        vehicleStory.style.display = "none";
-        vehicleStory.style.opacity = "0";
-        vehicleStory.style.pointerEvents = "none";
-      }
-      if (nisarCard) nisarCard.style.display = "none";
-      if (iframe) {
-        iframe.style.opacity = "1";
-        iframe.style.visibility = "visible";
-        iframe.style.display = "block";
-        requestAnimationFrame(ensureSimFrameVisible);
-        setTimeout(ensureSimFrameVisible, 50);
-        if (simFrameGuard) {
-          clearInterval(simFrameGuard);
-        }
-        simFrameGuard = setInterval(ensureSimFrameVisible, 100);
-      }
-    } else {
-      if (simFrameGuard) {
-        clearInterval(simFrameGuard);
-        simFrameGuard = null;
-      }
-      setStagePriority(false);
+  function closeSimulation() {
+    window._simActive = false;
+    if (simOverlay) {
+      simOverlay.style.display = "none";
     }
-
-    document.documentElement.style.overflow = on ? "hidden" : "";
-    document.body.style.overflow = on ? "hidden" : "";
-
-    if (!on) requestAnimationFrame(updateReveal);
+    // Restore page scroll
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
   }
 
-  if (enterBtn) {
-    enterBtn.onclick = () => setSimulationMode(true);
-    enterBtn.addEventListener("click", () => setSimulationMode(true));
-  }
-  if (exitBtn) {
-    exitBtn.onclick = () => setSimulationMode(false);
-    exitBtn.addEventListener("click", () => setSimulationMode(false));
-  }
-  if (simGuidanceExit) simGuidanceExit.addEventListener("click", () => setSimulationMode(false));
+  if (enterBtn) enterBtn.addEventListener("click", openSimulation);
+  if (exitBtn) exitBtn.addEventListener("click", closeSimulation);
 
-  if (iframe) {
-    iframe.addEventListener("error", () => {
-      const currentSrc = iframe.getAttribute("src") || "";
-      if (currentSrc !== fallbackSimSrc) {
-        iframe.setAttribute("src", fallbackSimSrc);
-      }
-    });
+  // Allow Escape key to exit simulation
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && window._simActive) {
+      closeSimulation();
+    }
+  });
 
-    iframe.addEventListener("load", () => {
-      if (window._simActive) {
-        iframe.style.opacity = "1";
-        iframe.style.visibility = "visible";
-        iframe.style.display = "block";
-      }
-    });
-
-    iframe.addEventListener("error", () => {
-      iframe.style.opacity = "1";
-      iframe.style.visibility = "visible";
-      iframe.style.display = "block";
-    });
-  }
-
-  // Do not trap users inside the iframe: a wheel gesture exits simulation and continues page scroll.
-  if (iframe) {
-    iframe.addEventListener("wheel", event => {
-      if (!inSimulation) return;
-      const delta = event.deltaY;
-      setSimulationMode(false);
-      window.scrollBy({ top: delta, left: 0, behavior: "auto" });
-      event.preventDefault();
-    }, { passive: false });
-  }
-
-  window.onEnterSimulation = () => setSimulationMode(true);
-  window.onExitSimulation = () => setSimulationMode(false);
-
-  if (window.__pendingSimulationOpen) {
-    window.__pendingSimulationOpen = false;
-    setSimulationMode(true);
-  }
-
-  if (iframe) iframe.style.pointerEvents = "none";
-  if (controls) controls.hidden = true;
-
+  // ───── Scroll-driven Reveal (unchanged logic) ─────
   const smooth = value => {
     const v = clamp(value, 0, 1);
     return v * v * (3 - 2 * v);
@@ -1587,36 +1481,29 @@ function initExplorerOverlayReveal(updateLaunchSequence) {
       });
     }
 
+    // Show the iframe preview and the "Open Simulation" panel together
     if (iframe) {
-      iframe.style.opacity = "1";
+      iframe.style.opacity = String(simVis);
     }
-    setStagePriority(simVis > 0.12 || inSimulation);
+    setStagePriority(simVis > 0.12);
 
-    if (controls) {
-      if (simVis > 0.12 || inSimulation) {
-        controls.hidden = false;
-        controls.style.opacity = inSimulation ? "1" : String(simVis);
-        if (simGuidance) {
-          simGuidance.hidden = false;
-          simGuidance.classList.toggle("active", inSimulation);
-          controls.style.top = `${simGuidance.offsetTop + simGuidance.offsetHeight + 10}px`;
-          controls.style.left = `${simGuidance.offsetLeft}px`;
-          controls.style.transform = "none";
-        }
+    // Show/hide the preview panel with the Open Simulation button
+    if (previewPanel) {
+      if (simVis > 0.12) {
+        previewPanel.classList.add("visible");
+        previewPanel.style.opacity = String(simVis);
       } else {
-        controls.hidden = true;
-        controls.style.opacity = "0";
-        if (simGuidance) simGuidance.hidden = true;
-        if (inSimulation) setSimulationMode(false);
+        previewPanel.classList.remove("visible");
+        previewPanel.style.opacity = "0";
       }
     }
-
   }
 
   window.addEventListener("scroll", updateReveal, { passive: true });
   window.addEventListener("resize", updateReveal);
   updateReveal();
 }
+
 
 function initMilestonesParallax() {
   const section = document.getElementById("milestones");

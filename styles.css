@@ -702,89 +702,92 @@ body {
   font-weight: 600;
 }
 
-.nisar-sat-card {
-  position: absolute;
-  right: 2.5vw;
-  bottom: 80px;
-  width: min(380px, 90vw);
+/* ===== SHARED SATELLITE CARD (matches satellite/client card exactly) ===== */
+.sat-card {
+  width: 340px;
   max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  overflow-x: hidden;
   background: rgba(6, 12, 24, 0.98);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 28px;
-  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.7), 0 0 1px rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(32px);
-  z-index: 18;
-  overflow-y: auto;
-  overflow-x: hidden;
-  pointer-events: auto;
-  animation: nisarCardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.7), 0 0 1px rgba(255, 255, 255, 0.2);
+  animation: satCardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes nisarCardIn {
-  from {
-    opacity: 0;
-    transform: translateY(40px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+.sat-card::-webkit-scrollbar { width: 4px; }
+.sat-card::-webkit-scrollbar-track { background: transparent; }
+.sat-card::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 2px; }
+
+@keyframes satCardIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.nisar-sat-card-image {
+.card-image {
   position: relative;
   width: 100%;
-  height: 140px;
+  height: 180px;
+  overflow: hidden;
   background: linear-gradient(135deg, #0a1628 0%, #141e30 100%);
 }
 
-.nisar-sat-card-image img {
+.card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.nisar-sat-card-image::after {
+.card-image::after {
   content: "";
   position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
-  bottom: 0;
   height: 80px;
   background: linear-gradient(transparent, rgba(6, 12, 24, 0.95));
 }
 
-.nisar-sat-card-pills {
+.card-orbit-indicator {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 12px;
+  left: 12px;
   display: flex;
   gap: 6px;
   z-index: 2;
 }
 
-.nisar-pill {
-  padding: 3px 9px;
-  border-radius: 999px;
+.card-orbit-pill {
+  padding: 3px 10px;
+  border-radius: 20px;
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(8px);
 }
 
-.nisar-pill.sso {
-  color: #00ff88;
-  border: 1px solid rgba(0, 255, 136, 0.42);
-  background: rgba(0, 255, 136, 0.16);
+.card-orbit-pill.leo { background: rgba(255, 0, 255, 0.2); color: #ff00ff; border: 1px solid rgba(255, 0, 255, 0.4); }
+.card-orbit-pill.sso { background: rgba(0, 255, 136, 0.2); color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.4); }
+.card-orbit-pill.geo { background: rgba(255, 140, 0, 0.2); color: #ff8c00; border: 1px solid rgba(255, 140, 0, 0.4); }
+.card-orbit-pill.gso { background: rgba(0, 212, 255, 0.2); color: #00d4ff; border: 1px solid rgba(0, 212, 255, 0.4); }
+.card-orbit-pill.heo { background: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3); }
+
+.card-status-pill {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
 }
 
-.nisar-pill.active {
-  color: #b7ffda;
-  border: 1px solid rgba(0, 255, 136, 0.28);
-  background: rgba(0, 180, 120, 0.18);
-}
+.card-status-pill.pill-active { background: rgba(0, 255, 136, 0.2); color: #00ff88; border: 1px solid rgba(0, 255, 136, 0.3); }
+.card-status-pill.pill-inactive { background: rgba(255, 100, 100, 0.2); color: #ff6464; border: 1px solid rgba(255, 100, 100, 0.3); }
 
-.nisar-sat-card-name {
+.card-name {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -793,7 +796,7 @@ body {
   z-index: 2;
 }
 
-.nisar-sat-card-name h3 {
+.card-name h3 {
   font-size: 17px;
   font-weight: 800;
   letter-spacing: -0.3px;
@@ -801,62 +804,69 @@ body {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-.nisar-sat-card-body {
+.card-body {
   padding: 18px 18px 24px;
 }
 
-.nisar-sat-grid {
+.card-info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px 20px;
 }
 
-.nisar-sat-item {
+.info-item {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.nisar-sat-item-wide {
-  grid-column: span 2;
-}
-
-.nisar-sat-item span {
-  display: block;
+.info-label {
   font-size: 10px;
   color: rgba(255, 255, 255, 0.35);
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-weight: 600;
 }
 
-.nisar-sat-item strong {
+.info-value {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.95);
   font-weight: 700;
 }
 
-.nisar-sat-link {
-  margin-top: 18px;
+.full-width {
+  grid-column: span 2;
+}
+
+.wiki-link {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 100%;
-  text-decoration: none;
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: #00d4ff;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
+  margin-top: 18px;
   padding: 10px;
   background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #00d4ff;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 600;
   transition: all 0.2s;
 }
 
-.nisar-sat-link:hover {
+.wiki-link:hover {
+  background: rgba(0, 212, 255, 0.1);
   border-color: #00d4ff;
-  background: rgba(0, 212, 255, 0.08);
+}
+
+/* NISAR card positioning override for explorer section */
+.nisar-sat-card {
+  position: absolute;
+  right: 2.5vw;
+  bottom: 80px;
+  z-index: 18;
+  pointer-events: auto;
 }
 
 .vehicle-story {
@@ -1083,27 +1093,46 @@ body {
   border: 0;
   display: block;
   background: #060c18;
-  opacity: 1;
-}
-
-.explorer.simulation-open #satelliteExperience {
-  opacity: 1 !important;
-  visibility: visible !important;
-  display: block !important;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 260ms ease;
 }
 
 .explorer.sim-priority .explorer-stage {
   background: #060c18;
 }
 
-.sim-controls {
+/* ===== SIMULATION PREVIEW PANEL (inside explorer-stage) ===== */
+.sim-preview-panel {
   position: absolute;
-  top: calc(3.2vh + 132px);
+  top: 3.2vh;
   left: 2.2vw;
-  z-index: 23;
-  display: flex;
-  gap: 0.6rem;
-  pointer-events: auto; /* Buttons must be clickable */
+  z-index: 22;
+  width: min(380px, 88vw);
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(111, 198, 227, 0.25);
+  background: rgba(6, 16, 27, 0.85);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+.sim-preview-panel.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.sim-preview-text {
+  font-size: 0.84rem;
+  color: #c7deea;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
 }
 
 .sim-btn {
@@ -1117,57 +1146,130 @@ body {
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 8px 20px rgba(28, 195, 232, 0.22);
-}
-
-.sim-controls[hidden] {
-  display: none;
+  transition: all 0.2s ease;
 }
 
 .sim-btn:hover {
   border-color: rgba(93, 227, 255, 0.95);
   background: linear-gradient(180deg, rgba(29, 123, 150, 0.88), rgba(12, 75, 98, 0.94));
+  box-shadow: 0 10px 28px rgba(28, 195, 232, 0.35);
 }
 
-.sim-guidance {
+/* ===== FULLSCREEN SIMULATION OVERLAY ===== */
+.sim-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #060c18;
+  animation: simOverlayIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes simOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.sim-overlay-iframe {
   position: absolute;
-  top: 3.2vh;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #060c18;
+}
+
+.sim-overlay-panel {
+  position: absolute;
+  top: 2.5vh;
   left: 2.2vw;
-  z-index: 22;
-  width: min(380px, 88vw);
-  padding: 0.85rem 0.95rem;
-  border-radius: 12px;
-  border: 1px solid rgba(111, 198, 227, 0.25);
-  background: rgba(6, 16, 27, 0.8);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
-  pointer-events: none;
+  z-index: 10;
+  width: min(340px, 86vw);
+  padding: 1.1rem 1.2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(83, 224, 255, 0.3);
+  background: rgba(6, 16, 27, 0.92);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  animation: simPanelSlide 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 
-.sim-guidance p {
-  font-size: 0.84rem;
-  color: #c7deea;
-  line-height: 1.45;
+@keyframes simPanelSlide {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.sim-guidance.active {
-  border-color: rgba(83, 224, 255, 0.42);
+.sim-overlay-title {
+  font-family: var(--font-head);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #e2f0ff;
+  margin-bottom: 0.7rem;
+  letter-spacing: -0.01em;
 }
 
-.sim-guidance-exit {
-  margin-top: 0.6rem;
-  border: 1px solid rgba(93, 227, 255, 0.55);
-  border-radius: 999px;
-  background: rgba(15, 90, 112, 0.9);
-  color: #effbff;
-  padding: 0.42rem 0.84rem;
-  font-size: 0.76rem;
+.sim-overlay-instructions {
+  margin-bottom: 1rem;
+}
+
+.sim-overlay-instructions p {
+  font-size: 0.82rem;
+  color: #a8c8e0;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.sim-overlay-instructions ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sim-overlay-instructions li {
+  font-size: 0.78rem;
+  color: #94b8d4;
+  line-height: 1.5;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.sim-overlay-instructions li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: #00d4ff;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.sim-overlay-instructions li strong {
+  color: #d4ecff;
   font-weight: 600;
-  pointer-events: auto;
-  cursor: pointer;
 }
 
-.sim-guidance-exit:hover {
-  background: rgba(22, 128, 158, 0.94);
+.sim-overlay-exit-btn {
+  width: 100%;
+  border: 1px solid rgba(255, 100, 100, 0.45);
+  background: linear-gradient(180deg, rgba(120, 30, 40, 0.7), rgba(70, 15, 25, 0.85));
+  color: #ffd4d4;
+  padding: 0.58rem 1rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(180, 40, 60, 0.2);
+  transition: all 0.2s ease;
 }
+
+.sim-overlay-exit-btn:hover {
+  border-color: rgba(255, 120, 120, 0.7);
+  background: linear-gradient(180deg, rgba(150, 40, 50, 0.8), rgba(90, 20, 35, 0.9));
+  box-shadow: 0 8px 20px rgba(200, 50, 70, 0.3);
+}
+
 
 .cesium-viewer-toolbar,
 .cesium-viewer-bottom,
