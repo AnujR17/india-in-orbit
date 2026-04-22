@@ -1,0 +1,12 @@
+{
+  "name": "isro-satellite-dashboard",
+  "version": "1.0.0",
+  "description": "ISRO Satellite Dashboard with 3D Simulation",
+  "main": "satellite/server/server.js",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "node-fetch": "^2.7.0",
+    "satellite.js": "^4.1.4"
+  }
+}
