@@ -8,13 +8,13 @@ app.use(cors());
 app.use(express.json());
 
 // Serve client static files
-app.use(express.static(path.join(__dirname, "../client")));
+app.use(express.static(path.join(__dirname, "../satellite/client")));
 
 // =============================================================================
 // IMPORT SATELLITE DATA — Single source of truth from client/satelliteData.js
 // =============================================================================
 
-const ISRO_SATELLITES = require(path.join(__dirname, "../client/satelliteData.js"));
+const ISRO_SATELLITES = require(path.join(__dirname, "../satellite/client/satelliteData.js"));
 
 // =============================================================================
 // DATABASE ENRICHMENT — Only fills computed/missing values (never overrides real data)
