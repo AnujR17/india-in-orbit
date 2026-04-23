@@ -318,10 +318,12 @@ function generateEstimatedClosedOrbit(sat, numPoints = 150) {
 }
 
 // =============================================================================
-// API ENDPOINTS
+// API ROUTER
 // =============================================================================
 
-app.get("/satellites", async (req, res) => {
+const router = express.Router();
+
+router.get("/satellites", async (req, res) => {
   try {
     const liveTrackedByNorad = await getLiveTrackedNoradMap();
 
@@ -341,13 +343,11 @@ app.get("/satellites", async (req, res) => {
   }
 });
 
-app.get("/satellites/:id/orbit", async (req, res) => {
+router.get("/satellites/:id/orbit", async (req, res) => {
   try {
     const satId = parseInt(req.params.id);
     const sat = ISRO_SATELLITES.find(s => s.noradId === satId);
-
     if (!sat) return res.status(404).json({ error: "Satellite not found" });
-
     const orbitPath = generateOrbitPath(sat);
     res.json({ satellite: sat.name, orbitType: sat.orbitType, path: orbitPath });
   } catch (err) {
@@ -356,7 +356,7 @@ app.get("/satellites/:id/orbit", async (req, res) => {
   }
 });
 
-app.get("/satellites/type/:orbitType", async (req, res) => {
+router.get("/satellites/type/:orbitType", async (req, res) => {
   try {
     const orbitType = req.params.orbitType.toUpperCase();
     const satellites = ISRO_SATELLITES.filter(s => s.orbitType === orbitType);
@@ -364,7 +364,6 @@ app.get("/satellites/type/:orbitType", async (req, res) => {
       ...sat,
       position: calculatePosition(sat)
     })).filter(sat => sat.position !== null);
-
     res.json(results);
   } catch (err) {
     console.error(err);
@@ -372,7 +371,7 @@ app.get("/satellites/type/:orbitType", async (req, res) => {
   }
 });
 
-app.get("/statistics", async (req, res) => {
+router.get("/statistics", async (req, res) => {
   const active = ISRO_SATELLITES.filter(s => s.status === "active");
   const stats = {
     total: ISRO_SATELLITES.length,
@@ -387,17 +386,14 @@ app.get("/statistics", async (req, res) => {
     },
     byPurpose: {}
   };
-
   ISRO_SATELLITES.forEach(sat => {
     const purpose = sat.purpose.split("(")[0].trim().split("/")[0].trim();
     stats.byPurpose[purpose] = (stats.byPurpose[purpose] || 0) + 1;
   });
-
   res.json(stats);
 });
 
-// Reference GEO ring
-app.get("/reference-orbits/geo-ring", (req, res) => {
+router.get("/reference-orbits/geo-ring", (req, res) => {
   const points = [];
   for (let i = 0; i <= 360; i += 1) {
     points.push({ latitude: 0, longitude: i - 180, altitude: 35786 });
@@ -405,8 +401,16 @@ app.get("/reference-orbits/geo-ring", (req, res) => {
   res.json({ name: "Geostationary Ring", altitude: 35786, points });
 });
 
-app.get("/health", (req, res) => {
+router.get("/health", (req, res) => {
   res.json({ status: "ok", satellites: ISRO_SATELLITES.length });
+});
+
+// Mount router under both root and /api for Vercel/Local compatibility
+app.use("/api", router);
+app.use("/", router);
+
+app.get("/api-health-check", (req, res) => {
+  res.json({ status: "ok", message: "Global API entry point is active" });
 });
 
 if (require.main === module) {
