@@ -424,18 +424,18 @@ if (require.main === module) {
   ╔════════════════════════════════════════════════════════════╗
   ║           ISRO SATELLITE TRACKER SERVER                    ║
   ╠════════════════════════════════════════════════════════════╣
-  ║  Server running on http://localhost:${PORT}                     ║
+  ║  Server running on http://localhost:${PORT}                ║
   ║  Total satellites: ${ISRO_SATELLITES.length.toString().padEnd(38)}║
-  ║  Active: ${active.toString().padEnd(48)}║
-  ║  Inactive: ${inactive.toString().padEnd(46)}║
-  ║  SSO: ${sso.toString().padEnd(51)}║
-  ║  GEO: ${geo.toString().padEnd(51)}║
+  ║  Active: ${active.toString().padEnd(48)}                   ║
+  ║  Inactive: ${inactive.toString().padEnd(46)}               ║
+  ║  SSO: ${sso.toString().padEnd(51)}                         ║
+  ║  GEO: ${geo.toString().padEnd(51)}                         ║
   ╠════════════════════════════════════════════════════════════╣
   ║  Endpoints:                                                ║
-  ║    GET /satellites            - All with positions          ║
-  ║    GET /satellites/:id/orbit  - Orbit path                  ║
-  ║    GET /satellites/type/:type - Filter by orbit type        ║
-  ║    GET /statistics            - Database statistics          ║
+  ║    GET /satellites            - All with positions         ║
+  ║    GET /satellites/:id/orbit  - Orbit path                 ║
+  ║    GET /satellites/type/:type - Filter by orbit type       ║
+  ║    GET /statistics            - Database statistics        ║
   ╚════════════════════════════════════════════════════════════╝
     `);
   });

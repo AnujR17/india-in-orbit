@@ -21,7 +21,7 @@ const ISRO_SATELLITES_DATA = [
     launchVehicle: "Cosmos-3M",
     mass: "444 kg",
     purpose: "Research & Development", // Default if not detailed in simplified table
-    image: "https://en.wikipedia.org/wiki/File:Bhaskara_I.jpg",
+    image: "https://cdn.satnow.com/live/Bhaskara_I_638538582612408577_638538582612408577_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/Bhaskara-I",
     altitude: 500,
     tle1: "", // Needs separate update if propagation required
@@ -35,7 +35,7 @@ const ISRO_SATELLITES_DATA = [
     launchVehicle: "Cosmos-3M",
     mass: "444 kg",
     purpose: "Research & Development", // Default if not detailed in simplified table
-    image: "https://en.wikipedia.org/wiki/File:Bhaskara_II.jpg",
+    image: "https://cdn.satnow.com/live/Bhaskara_II_638538584280732117_638538584280732117_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/Bhaskara-II",
     altitude: 500,
     tle1: "", // Needs separate update if propagation required

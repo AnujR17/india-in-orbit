@@ -12,7 +12,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "1975-04-19", launchVehicle: "Cosmos-3M",
     mass: "360 kg", purpose: "Technology Demonstration",
     missionLife: "6 months", altitude: 619, inclination: 50.7,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/Aryabhata_Satellite.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/5/50/Aryabhata_Satellite.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/Aryabhata_(satellite)",
     tle1: "", tle2: ""
   },
