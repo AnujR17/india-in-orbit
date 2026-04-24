@@ -1,5 +1,5 @@
 // =============================================================================
-// ISRO SATELLITE DATABASE — Verified & Complete
+// ISRO SATELLITE DATABASE 
 // ~120 satellites with accurate orbital parameters, purposes, and metadata
 // Sources: Wikipedia, ISRO official, CelesTrak TLE data
 // =============================================================================
@@ -22,7 +22,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "1979-06-07", launchVehicle: "Cosmos-3M",
     mass: "444 kg", purpose: "Earth Observation",
     missionLife: "2 years", altitude: 524, inclination: 50.7,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/Bhaskara_I_satellite.jpg",
+    image: "https://www.csre.iitb.ac.in/isro/bhaskara.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/Bhaskara_(satellite)",
     tle1: "", tle2: ""
   },
@@ -32,8 +32,8 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "1980-07-18", launchVehicle: "SLV-3",
     mass: "35 kg", purpose: "Technology Demonstration",
     missionLife: "1.5 years", altitude: 612, inclination: 44.7,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/SLV3.jpg",
-    wikiUrl: "https://en.wikipedia.org/wiki/Rohini_(satellite)",
+    image: "https://www.csre.iitb.ac.in/isro/rohini.jpg",
+    wikiUrl: "https://en.wikipedia.org/wiki/Rohini_Satellite_1",
     tle1: "", tle2: ""
   },
   {
@@ -43,7 +43,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "670 kg", purpose: "Communication (Technology Demo)",
     missionLife: "2 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 102,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/APPLE_Satellite.jpg",
+    image: "https://preview.redd.it/from-bullock-carts-to-geostationary-orbits-the-apple-v0-yixa0j6evq2f1.png?width=400&format=png&auto=webp&s=607f2c358e4f07d06d101b10eada237fbb07636a",
     wikiUrl: "https://en.wikipedia.org/wiki/Ariane_Passenger_Payload_Experiment",
     tle1: "", tle2: ""
   },
@@ -53,7 +53,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "1981-11-20", launchVehicle: "Cosmos-3M",
     mass: "444 kg", purpose: "Earth Observation",
     missionLife: "2 years", altitude: 541, inclination: 50.7,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/Bhaskara_I_satellite.jpg",
+    image: "https://www.csre.iitb.ac.in/isro/bhaskara.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/Bhaskara_(satellite)",
     tle1: "", tle2: ""
   },
@@ -64,7 +64,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "1152 kg", purpose: "Communication / Meteorology",
     missionLife: "7 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 74,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-1A.jpg",
+    image: "https://cdn1.byjus.com/wp-content/uploads/2018/11/free-ias-prep/2018/04/10053313/insat1a2-300x267.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-1A",
     tle1: "", tle2: ""
   },
@@ -75,7 +75,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "1152 kg", purpose: "Communication / Meteorology",
     missionLife: "7 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 74,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-1B_Deployment_-_GPN-2000-001584.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_1B_638538715198965143_638538715198965143_300.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-1B",
     tle1: "", tle2: ""
   },
@@ -85,7 +85,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "1988-03-17", launchVehicle: "Vostok",
     mass: "975 kg", purpose: "Earth Observation",
     missionLife: "3 years", altitude: 904, inclination: 99.0,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/IRS-1A_model.jpg",
+    image: "https://cdn.satnow.com/live/IRS_1A_638538726830582221_638538726830582221_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/IRS-1A",
     tle1: "", tle2: ""
   },
@@ -96,7 +96,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "1190 kg", purpose: "Communication / Meteorology",
     missionLife: "7 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 93.5,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-1A.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_1C_638538715665847776_638538715665847776_300.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-1C",
     tle1: "", tle2: ""
   },
@@ -108,7 +108,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "1190 kg", purpose: "Communication / Meteorology",
     missionLife: "7 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 83,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-1A.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_1D_638538716193509854_638538716193509854_300.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-1D",
     tle1: "", tle2: ""
   },
@@ -118,7 +118,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "1991-08-29", launchVehicle: "Vostok",
     mass: "975 kg", purpose: "Earth Observation",
     missionLife: "3 years", altitude: 904, inclination: 99.0,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/IRS-1A_model.jpg",
+    image: "https://cdn.satnow.com/live/IRS_1B_638539389354925544_638539389354925544_300.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/IRS-1B",
     tle1: "", tle2: ""
   },
@@ -129,7 +129,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "1906 kg", purpose: "Communication / Meteorology",
     missionLife: "7 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 74,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-2A.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_2A_638538716821061960_638538716821061960_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-2A",
     tle1: "", tle2: ""
   },
@@ -140,7 +140,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "1931 kg", purpose: "Communication / Meteorology",
     missionLife: "7 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 93.5,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-2A.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_2B_638538717249975728_638538717249975728_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-2B",
     tle1: "", tle2: ""
   },
@@ -150,7 +150,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "1994-10-15", launchVehicle: "PSLV-D2",
     mass: "804 kg", purpose: "Earth Observation",
     missionLife: "3 years", altitude: 817, inclination: 98.7,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/PSLV_D2_launch.jpg",
+    image: "https://cdn.satnow.com/live/IRS_P2_638539375707554134_638539375707554134_300.png",
     wikiUrl: "https://en.wikipedia.org/wiki/IRS-P2",
     tle1: "", tle2: ""
   },
@@ -160,7 +160,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "1995-12-28", launchVehicle: "Molniya-M",
     mass: "1250 kg", purpose: "Earth Observation",
     missionLife: "3 years", altitude: 817, inclination: 98.6,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/IRS-1C.jpg",
+    image: "https://cdn.satnow.com/live/IRS_1C_638538728006545524_638538728006545524_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/IRS-1C",
     tle1: "", tle2: ""
   },
@@ -171,7 +171,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "2106 kg", purpose: "Communication",
     missionLife: "7 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 93.5,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-2A.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_2C_638538718125490829_638538718125490829_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-2C",
     tle1: "", tle2: ""
   },
@@ -181,7 +181,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "1996-03-21", launchVehicle: "PSLV-D3",
     mass: "920 kg", purpose: "Earth Observation",
     missionLife: "3 years", altitude: 817, inclination: 98.7,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/PSLV-D3-IRS-P3.jpg",
+    image: "https://cdn.satnow.com/live/IRS_P3_638538731098505735_638538731098505735_300.png",
     wikiUrl: "https://en.wikipedia.org/wiki/IRS-P3",
     tle1: "", tle2: ""
   },
@@ -192,7 +192,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "2079 kg", purpose: "Communication / Meteorology",
     missionLife: "7 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 74,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-2A.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_2D_638538718651751493_638538718651751493_300.PNGg",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-2D",
     tle1: "", tle2: ""
   },
@@ -202,7 +202,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "1997-09-29", launchVehicle: "PSLV-C1",
     mass: "1200 kg", purpose: "Earth Observation",
     missionLife: "3 years", altitude: 740, inclination: 98.6,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/PSLV-C1_IRS-1D.jpg",
+    image: "https://cdn.satnow.com/live/IRS_1D_638538729062977306_638538729062977306_300.png",
     wikiUrl: "https://en.wikipedia.org/wiki/IRS-1D",
     tle1: "", tle2: ""
   },
@@ -213,7 +213,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "2550 kg", purpose: "Communication / Meteorology",
     missionLife: "7 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 83,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-2E.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_2E_638538719165059630_638538719165059630_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-2E",
     tle1: "", tle2: ""
   },
@@ -223,7 +223,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "1999-05-26", launchVehicle: "PSLV-C2",
     mass: "1050 kg", purpose: "Oceanography",
     missionLife: "5 years", altitude: 720, inclination: 98.3,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/OceanSat-1.jpg",
+    image: "https://cdn.satnow.com/live/IRS_P4_638538731438830564_638538731438830564_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/Oceansat-1",
     tle1: "", tle2: ""
   },
@@ -235,7 +235,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "2070 kg", purpose: "Communication",
     missionLife: "10 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 83,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-3B.jpg",
+    image: "https://cdn.satnow.com/live/insat_3b_638538719912264157_638538719912264157_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-3B",
     tle1: "", tle2: ""
   },
@@ -245,7 +245,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2001-10-22", launchVehicle: "PSLV-C3",
     mass: "1108 kg", purpose: "Technology Demonstration / Earth Observation",
     missionLife: "3 years", altitude: 568, inclination: 97.8,
-    image: "https://www.isro.gov.in/media_isro/image/index/TES/tes.jpg",
+    image: "https://cdn.satnow.com/live/TES_638538741940267422_638538741940267422_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/Technology_Experiment_Satellite",
     tle1: "", tle2: ""
   },
@@ -256,7 +256,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "1540 kg", purpose: "Communication (Technology Demo)",
     missionLife: "3 years", altitude: 35786, inclination: 0.5,
     geoLongitude: 48,
-    image: "https://www.isro.gov.in/media_isro/image/index/GSLV-D1/gslv-d1.jpg",
+    image: "https://www.ralspace.stfc.ac.uk/Gallery/GSAT-1.jpg?Width=360&Height=222&RenditionID=5",
     wikiUrl: "https://en.wikipedia.org/wiki/GSAT-1",
     tle1: "", tle2: ""
   },
@@ -267,7 +267,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "2750 kg", purpose: "Communication",
     missionLife: "12 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 74,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-3C.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_3C_638538720286656950_638538720286656950_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-3C",
     tle1: "", tle2: ""
   },
@@ -278,7 +278,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "1060 kg", purpose: "Meteorology",
     missionLife: "7 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 74,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/Kalpana-1_(METSAT).jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/5/59/METSAT_Kalpana-1_deployed_view.png",
     wikiUrl: "https://en.wikipedia.org/wiki/Kalpana-1",
     tle1: "", tle2: ""
   },
@@ -289,7 +289,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "2950 kg", purpose: "Communication / Meteorology",
     missionLife: "10 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 93.5,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-3A.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_3A_638538719587417794_638538719587417794_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-3A",
     tle1: "", tle2: ""
   },
@@ -300,7 +300,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "1825 kg", purpose: "Communication (Technology Demo)",
     missionLife: "3 years", altitude: 35786, inclination: 0.5,
     geoLongitude: 48,
-    image: "https://www.isro.gov.in/media_isro/image/index/GSLV-D2/gslv-d2.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/9/9f/GSAT-2_T.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/GSAT-2",
     tle1: "", tle2: ""
   },
@@ -311,7 +311,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "2775 kg", purpose: "Communication",
     missionLife: "12 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 55,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-3E.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_3E_638538725141178823_638538725141178823_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-3E",
     tle1: "", tle2: ""
   },
@@ -321,7 +321,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2003-10-17", launchVehicle: "PSLV-C5",
     mass: "1360 kg", purpose: "Earth Observation (Land & Water Resources)",
     missionLife: "5 years", altitude: 817, inclination: 98.7,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/Resourcesat-1.jpg",
+    image: "https://cdn.satnow.com/live/IRS_P6_638538731846971445_638538731846971445_300.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/Resourcesat-1",
     tle1: "", tle2: ""
   },
@@ -333,7 +333,7 @@ const ISRO_SATELLITES_DATA = [
     missionLife: "7 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 74,
     image: "https://en.wikipedia.org/wiki/Special:FilePath/EDUSAT.jpg",
-    wikiUrl: "https://en.wikipedia.org/wiki/EDUSAT",
+    wikiUrl: "https://en.wikipedia.org/wiki/GSAT-3",
     tle1: "", tle2: ""
   },
   {
@@ -342,7 +342,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2005-05-05", launchVehicle: "PSLV-C6",
     mass: "1560 kg", purpose: "Earth Observation (Cartography)",
     missionLife: "5 years", altitude: 618, inclination: 97.9,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/Cartosat-1.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/en/9/93/Cartosat1Assembly.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/Cartosat-1",
     tle1: "", tle2: ""
   },
@@ -353,7 +353,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "3081 kg", purpose: "Communication (DTH Television)",
     missionLife: "12 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 83,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-4A.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/3/34/Render_of_INSAT-4A_spacecraft_in_deployed_configuration.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-4A",
     tle1: "", tle2: ""
   },
@@ -363,7 +363,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2007-01-10", launchVehicle: "PSLV-C7",
     mass: "680 kg", purpose: "Earth Observation (High-Resolution Cartography)",
     missionLife: "5 years", altitude: 635, inclination: 97.9,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/Cartosat-2_satellite.jpg",
+    image: "https://cdn.satnow.com/live/cartosat_2_638538699095942837_638538699095942837_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/Cartosat-2",
     tle1: "", tle2: ""
   },
@@ -374,7 +374,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "3025 kg", purpose: "Communication (DTH Television)",
     missionLife: "12 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 93.5,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-4B.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_4B_638538725692441678_638538725692441678_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-4B",
     tle1: "", tle2: ""
   },
@@ -385,7 +385,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "2130 kg", purpose: "Communication (DTH Television)",
     missionLife: "10 years", altitude: 35786, inclination: 0.1,
     geoLongitude: 74,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/INSAT-4CR.jpg",
+    image: "https://cdn.satnow.com/live/INSAT_4CR_638538726504642224_638538726504642224_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/INSAT-4CR",
     tle1: "", tle2: ""
   },
@@ -395,7 +395,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2008-04-28", launchVehicle: "PSLV-C9",
     mass: "690 kg", purpose: "Earth Observation (High-Resolution Imaging)",
     missionLife: "5 years", altitude: 635, inclination: 97.9,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/Cartosat-2A.jpg",
+    image: "https://cdn.satnow.com/live/Cartosat_2A_Series_638538698179212019_638538698179212019_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/Cartosat-2A",
     tle1: "", tle2: ""
   },
@@ -405,7 +405,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2008-10-22", launchVehicle: "PSLV-C11",
     mass: "1380 kg", purpose: "Lunar Exploration",
     missionLife: "2 years", altitude: 100, inclination: 0,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/Chandrayaan-1_Lunar_orbit.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/f/fd/CY1_2007_%28cropped%29.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/Chandrayaan-1",
     tle1: "", tle2: ""
   },
@@ -415,7 +415,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2009-04-20", launchVehicle: "PSLV-C12",
     mass: "300 kg", purpose: "Earth Observation (SAR Radar Imaging)",
     missionLife: "3 years", altitude: 550, inclination: 41.0,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/RISAT-2.jpg",
+    image: "https://cdn.satnow.com/live/RISAT_2_638538738695812017_638538738695812017_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/RISAT-2",
     tle1: "", tle2: ""
   },
@@ -425,7 +425,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2009-04-20", launchVehicle: "PSLV-C12",
     mass: "40 kg", purpose: "Technology Demonstration (University)",
     missionLife: "1 year", altitude: 550, inclination: 41.0,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/ANUSAT.jpg",
+    image: "https://www.isro.gov.in/media_isro/image/schemes/STUDENTSATELLITE/ANUSAT.jpg.webp",
     wikiUrl: "https://en.wikipedia.org/wiki/ANUSAT",
     tle1: "", tle2: ""
   },
@@ -435,7 +435,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2009-09-23", launchVehicle: "PSLV-C14",
     mass: "960 kg", purpose: "Oceanography",
     missionLife: "5 years", altitude: 720, inclination: 98.3,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/Oceansat-2.jpg",
+    image: "https://cdn.satnow.com/live/Oceansat_2_638538733378879006_638538733378879006_300.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/Oceansat-2",
     tle1: "", tle2: ""
   },
@@ -457,7 +457,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2010-07-12", launchVehicle: "PSLV-C15",
     mass: "694 kg", purpose: "Earth Observation (Cartography)",
     missionLife: "5 years", altitude: 635, inclination: 97.9,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/CARTOSAT-2B.jpg",
+    image: "https://cdn.satnow.com/live/CartoSat_2B_638538698374838668_638538698374838668_300.PNG",
     wikiUrl: "https://en.wikipedia.org/wiki/Cartosat-2B",
     tle1: "", tle2: ""
   },
@@ -467,7 +467,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2010-07-12", launchVehicle: "PSLV-C15",
     mass: "1 kg", purpose: "Technology Demonstration (Student)",
     missionLife: "6 months", altitude: 635, inclination: 97.9,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/STUDSAT.jpg",
+    image: "https://www.isro.gov.in/media_isro/image/schemes/STUDENTSATELLITE/student-satellite.jpg.webp",
     wikiUrl: "https://en.wikipedia.org/wiki/STUDSAT",
     tle1: "", tle2: ""
   },
@@ -511,7 +511,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2011-10-12", launchVehicle: "PSLV-C18",
     mass: "1000 kg", purpose: "Meteorology (Tropical Climate)",
     missionLife: "5 years", altitude: 866, inclination: 20.0,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/Megha-Tropiques_deploys_solar_panels.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/7/7f/Render_of_Megha-Tropiques_spacecraft_in_deployed_configuration.png",
     wikiUrl: "https://en.wikipedia.org/wiki/Megha-Tropiques",
     tle1: "", tle2: ""
   },
@@ -521,7 +521,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2011-10-12", launchVehicle: "PSLV-C18",
     mass: "10.9 kg", purpose: "Technology Demonstration (University)",
     missionLife: "6 months", altitude: 866, inclination: 20.0,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/SRMSat.jpg",
+    image: "https://www.isro.gov.in/media_isro/image/schemes/STUDENTSATELLITE/SRMSAT.jpg.webphttps://en.wikipedia.org/wiki/Special:FilePath/SRMSat.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/SRMSat",
     tle1: "", tle2: ""
   },
@@ -531,7 +531,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2011-10-12", launchVehicle: "PSLV-C18",
     mass: "3 kg", purpose: "Technology Demonstration (University)",
     missionLife: "1 year", altitude: 866, inclination: 20.0,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/Jugnu_nanosatellite.jpg",
+    image: "https://weebau.com/satpics/J/jugnu.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/Jugnu_(satellite)",
     tle1: "", tle2: ""
   },
@@ -541,7 +541,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2012-04-26", launchVehicle: "PSLV-C19",
     mass: "1858 kg", purpose: "Earth Observation (SAR Radar Imaging)",
     missionLife: "5 years", altitude: 536, inclination: 97.6,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/RISAT-1.jpg",
+    image: "https://cdn.satnow.com/live/risat_1_638538738326427493_638538738326427493_300.png",
     wikiUrl: "https://en.wikipedia.org/wiki/RISAT-1",
     tle1: "", tle2: ""
   },
@@ -563,7 +563,7 @@ const ISRO_SATELLITES_DATA = [
     launchDate: "2013-02-25", launchVehicle: "PSLV-C20",
     mass: "407 kg", purpose: "Oceanography (Altimetry)",
     missionLife: "5 years", altitude: 781, inclination: 98.5,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/SARAL_satellite.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/en/1/17/SARAL.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/SARAL",
     tle1: "1 39086U 13009A   26101.91087213  .00000073  00000+0  42700-4 0  9996",
     tle2: "2 39086  98.5567 289.3133 0002912 109.1749 250.9750 14.32839828686110"
@@ -575,7 +575,7 @@ const ISRO_SATELLITES_DATA = [
     mass: "1425 kg", purpose: "Navigation (NavIC)",
     missionLife: "10 years", altitude: 35786, inclination: 29.0,
     geoLongitude: 55,
-    image: "https://en.wikipedia.org/wiki/Special:FilePath/IRNSS-1A.jpg",
+    image: "https://weebau.com/satpics/I/irnss1a_b.jpg",
     wikiUrl: "https://en.wikipedia.org/wiki/IRNSS-1A",
     tle1: "", tle2: ""
   },
